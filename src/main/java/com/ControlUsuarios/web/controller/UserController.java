@@ -1,4 +1,4 @@
-package com.ControlUsuarios.web;
+package com.ControlUsuarios.web.controller;
 
 import com.ControlUsuarios.persitence.entity.UserEntity;
 import com.ControlUsuarios.service.UserServer;
@@ -22,23 +22,25 @@ public class UserController {
         return ResponseEntity.ok(userServer.getAll());
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<UserEntity> getUser(@PathVariable String id) {
         return ResponseEntity.ok(userServer.getUserById(id));
     }
 
-    @PostMapping("/save")
+    @PostMapping("/add")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<UserEntity> save(@RequestBody UserEntity user) {
-        if (user.getUsername() == null || this.userServer.exist(user.getUsername())) {
+        if (user.getUsername()!=null && !this.userServer.exist(user.getUsername())) {
             return ResponseEntity.ok(this.userServer.save(user));
         } else {
             return ResponseEntity.badRequest().build();
+
         }
     }
 
     @PutMapping("/update")
     public ResponseEntity<UserEntity> update(@RequestBody UserEntity user) {
-        if(user.getUsername()!=null || this.userServer.exist(user.getUsername())){
+        if(user.getUsername()!=null && this.userServer.exist(user.getUsername())){
             return ResponseEntity.ok(this.userServer.save(user));
         }else{
             return ResponseEntity.badRequest().build();
@@ -46,7 +48,7 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{username}")
-    public ResponseEntity<Void> delete(@RequestParam String username){
+    public ResponseEntity<Void> delete(@PathVariable String username){
         if(userServer.exist(username)){
             this.userServer.delete(username);
             return ResponseEntity.ok().build();

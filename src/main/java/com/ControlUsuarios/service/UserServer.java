@@ -33,7 +33,7 @@ public class UserServer {
     }
 
     public void delete(String username){
-         this.userRepository.deleteById(username);
+        this.userRepository.deleteById(username);
     }
 
     public Boolean exist(String username) {
