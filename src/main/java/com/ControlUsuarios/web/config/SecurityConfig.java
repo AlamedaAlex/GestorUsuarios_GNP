@@ -21,8 +21,10 @@ public class SecurityConfig {
                 .csrf(csrf->csrf.disable())
                 .cors().and()
                 .authorizeHttpRequests()
-                .requestMatchers(HttpMethod.GET,"/api/user/*").hasAnyRole("ADMIN","CUSTOMER")
-                .requestMatchers(HttpMethod.POST,"/api/user/*").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET,"/api/user/*").permitAll()
+                .requestMatchers(HttpMethod.POST,"/api/user/*").permitAll()
+                .requestMatchers(HttpMethod.PUT,"/api/user/*").permitAll()
+                .requestMatchers(HttpMethod.DELETE,"/api/user/*+").permitAll()
                 .anyRequest()
 //                .permitAll();
                 .authenticated()
