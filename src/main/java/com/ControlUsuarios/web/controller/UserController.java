@@ -2,8 +2,13 @@ package com.ControlUsuarios.web.controller;
 
 import com.ControlUsuarios.persitence.entity.UserEntity;
 import com.ControlUsuarios.service.UserServer;
-import org.apache.catalina.User;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.encrypt.BytesEncryptor;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
+import org.springframework.security.crypto.keygen.KeyGenerators;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,11 +36,24 @@ public class UserController {
     @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<UserEntity> save(@RequestBody UserEntity user) {
         if (user.getUsername()!=null && !this.userServer.exist(user.getUsername())) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
+            String result = encoder.encode(user.getPassword());
+            user.setPassword(result);
             return ResponseEntity.ok(this.userServer.save(user));
         } else {
             return ResponseEntity.badRequest().build();
-
         }
+    }
+
+    @PostMapping("/encoded")
+    public ResponseEntity<UserEntity> encode(@RequestBody UserEntity user){
+        UserEntity user1 = this.userServer.getUserById(user.getUsername());
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
+        Boolean result= encoder.matches(user.getPassword(),user1.getPassword());
+        System.out.println(result);
+
+        return ResponseEntity.ok().build();
+
     }
 
     @PutMapping("/update")

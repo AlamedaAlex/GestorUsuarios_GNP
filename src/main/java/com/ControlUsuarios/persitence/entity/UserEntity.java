@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.crypto.encrypt.BytesEncryptor;
 
 @Entity
 @Table(name = "user")
@@ -19,8 +20,8 @@ public class UserEntity {
     @Column(nullable = false,length = 200)
     public String name;
 
-    @Column(nullable = false,length = 200)
-    private String password;
+    @Column(nullable = false, length = 200)
+    private String  password;
 
     @Column(length = 50)
     private String email;

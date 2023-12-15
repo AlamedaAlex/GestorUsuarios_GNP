@@ -39,4 +39,5 @@ public class UserServer {
     public Boolean exist(String username) {
         return this.userRepository.existsById(username);
     }
+
 }

@@ -24,6 +24,9 @@ dependencies {
 	runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	compileOnly 'org.projectlombok:lombok'
+	implementation 'org.springframework.security:spring-security-crypto:6.2.0'
+	implementation 'org.owasp.encoder:encoder:1.2.3'
+
 
 }
 
