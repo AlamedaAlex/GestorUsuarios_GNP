@@ -18,13 +18,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
         http
+
                 .csrf(csrf->csrf.disable())
                 .cors().and()
                 .authorizeHttpRequests()
-                .requestMatchers(HttpMethod.GET,"/api/user/*").permitAll()
-                .requestMatchers(HttpMethod.POST,"/api/user/*").permitAll()
-                .requestMatchers(HttpMethod.PUT,"/api/user/*").permitAll()
-                .requestMatchers(HttpMethod.DELETE,"/api/user/*").permitAll()
+                .requestMatchers(HttpMethod.GET).permitAll()
+                .requestMatchers(HttpMethod.POST).permitAll()
+                .requestMatchers(HttpMethod.PUT).permitAll()
+                .requestMatchers(HttpMethod.DELETE).permitAll()
                 .anyRequest()
 //                .permitAll();
                 .authenticated()
@@ -33,20 +34,20 @@ public class SecurityConfig {
     return http.build();
     }
 
-    @Bean
-    public UserDetailsService memoryUsers(){
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password(passwordEncoder().encode("admin"))
-                .roles("ADMIN")
-                .build();
-        UserDetails customer = User.builder()
-                .username("customer")
-                .password(passwordEncoder().encode("customer123"))
-                .roles("CUSTOMER")
-                .build();
-        return new InMemoryUserDetailsManager(admin,customer);
-    }
+//    @Bean
+//    public UserDetailsService memoryUsers(){
+//        UserDetails admin = User.builder()
+//                .username("admin")
+//                .password(passwordEncoder().encode("admin"))
+//                .roles("ADMIN")
+//                .build();
+//        UserDetails customer = User.builder()
+//                .username("customer")
+//                .password(passwordEncoder().encode("customer123"))
+//                .roles("CUSTOMER")
+//                .build();
+//        return new InMemoryUserDetailsManager(admin,customer);
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder(){

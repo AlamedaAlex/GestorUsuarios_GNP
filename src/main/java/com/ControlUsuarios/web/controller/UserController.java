@@ -11,7 +11,11 @@ import org.springframework.security.crypto.keygen.KeyGenerators;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.parser.Entity;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
@@ -33,7 +37,6 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<UserEntity> save(@RequestBody UserEntity user) {
         if (user.getUsername()!=null && !this.userServer.exist(user.getUsername())) {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
@@ -63,6 +66,16 @@ public class UserController {
         }else{
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @GetMapping("/statistics/{id}")
+    public ResponseEntity<Object> statistics(@PathVariable String id){
+        UserEntity user = this.userServer.getUserById(id);
+        Map<String,Object> data = new HashMap<String,Object>();
+        data.put("username",user.getUsername());
+        data.put("name", user.getName());
+
+        return  ResponseEntity.ok(data);
     }
 
     @DeleteMapping("/delete/{username}")
