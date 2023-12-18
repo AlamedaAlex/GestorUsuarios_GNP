@@ -20,6 +20,7 @@ public class UserEntity {
     @Column(nullable = false,length = 200)
     public String name;
 
+
     @Column(nullable = false, length = 200)
     private String  password;
 
@@ -30,6 +31,8 @@ public class UserEntity {
     private Boolean locked;
     @Column(nullable = false,columnDefinition = "TINYINT")
     private Boolean disabled;
+
+
 
     public String getUsername() {
         return username;

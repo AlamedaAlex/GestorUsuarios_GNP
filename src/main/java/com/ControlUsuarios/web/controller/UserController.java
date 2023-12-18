@@ -39,6 +39,9 @@ public class UserController {
     @PostMapping("/add")
     public ResponseEntity<UserEntity> save(@RequestBody UserEntity user) {
         if (user.getUsername()!=null && !this.userServer.exist(user.getUsername())) {
+            user.setDisabled(true);
+            user.setLocked(false);
+            System.out.println(user);
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
             String result = encoder.encode(user.getPassword());
             user.setPassword(result);
