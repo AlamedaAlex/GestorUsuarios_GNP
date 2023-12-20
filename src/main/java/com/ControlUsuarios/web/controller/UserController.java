@@ -52,13 +52,23 @@ public class UserController {
     }
 
     @PostMapping("/encoded")
-    public ResponseEntity<UserEntity> encode(@RequestBody UserEntity user){
-        UserEntity user1 = this.userServer.getUserById(user.getUsername());
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
-        Boolean result= encoder.matches(user.getPassword(),user1.getPassword());
-        System.out.println(result);
+    public ResponseEntity<String> encode(@RequestBody UserEntity user){
+        if (user.getUsername()==null || !this.userServer.exist(user.getUsername()))
+        {
+         return ResponseEntity.status(404).body("No se encontró el Usuario");
+        }else {
+            UserEntity user1 = this.userServer.getUserById(user.getUsername());
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
+            Boolean result= encoder.matches(user.getPassword(),user1.getPassword());
+            if(result){
+            return ResponseEntity.ok().body("Bienvenio");
+            }
+            else {
+            return ResponseEntity.status(401).body("Tu constraseña no es valida");
+            }
 
-        return ResponseEntity.ok().build();
+        }
+
 
     }
 
